@@ -1,3 +1,4 @@
+
 services:
   - type: web
     name: monroe-bot-dashboard
@@ -10,14 +11,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 5000
       - key: SESSION_SECRET
         generateValue: true
-      - key: DATABASE_URL
-        fromDatabase:
-          name: monroe-bot-db
-          property: connectionString
       - key: API_SECRET
         generateValue: true
       - key: BOT_API_URL
@@ -26,8 +21,3 @@ services:
       name: monroe-dashboard-disk
       mountPath: /app/data
       sizeGB: 1
-
-databases:
-  - name: monroe-bot-db
-    plan: starter
-    region: oregon

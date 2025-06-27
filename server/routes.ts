@@ -51,7 +51,7 @@ function addActivity(type: 'success' | 'warning' | 'error' | 'info', message: st
     timestamp: new Date().toISOString(),
     user
   });
-  
+
   // Keep only last 50 activities
   if (activityLog.length > 50) {
     activityLog.splice(50);
@@ -59,18 +59,14 @@ function addActivity(type: 'success' | 'warning' | 'error' | 'info', message: st
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Health check endpoint for deployment monitoring
-  app.get("/api/health", (req, res) => {
-    res.json({ 
-      status: "healthy", 
-      timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
-      version: "1.0.0"
-    });
+  // Health check endpoint for Render
+  app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
   });
+
   // Create MemoryStore instance
   const SessionStore = MemoryStore(session);
-  
+
   // Session middleware
   app.use(session({
     secret: process.env.SESSION_SECRET || 'monroe-bot-dashboard-secret-key',
@@ -140,7 +136,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('Preparing response...');
       // Return user data without password
       const { password: _, ...userWithoutPassword } = user;
-      
+
       console.log('Sending response:', userWithoutPassword);
       res.json({ user: userWithoutPassword });
     } catch (error) {
@@ -188,7 +184,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/users", requireAuth, requireAdmin, async (req, res) => {
     try {
       const userData = createUserSchema.parse(req.body);
-      
+
       // Check if username already exists
       const existingUser = await storage.getUserByUsername(userData.username);
       if (existingUser) {
@@ -234,7 +230,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const apiSecret = process.env.API_SECRET || process.env.BOT_API_SECRET || "default-secret";
       const botApiUrl = process.env.BOT_API_URL || "https://monroe-bot.onrender.com";
-      
+
       const response = await fetch(`${botApiUrl}/api/status`, {
         headers: {
           'Authorization': `Bearer ${apiSecret}`,
@@ -309,9 +305,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { message, channel_id } = broadcastSchema.parse(req.body);
       const apiSecret = process.env.API_SECRET || process.env.BOT_API_SECRET || "default-secret";
       const botApiUrl = process.env.BOT_API_URL || "https://monroe-bot.onrender.com";
-      
+
       console.log("Sending broadcast to bot:", { message, channel_id });
-      
+
       const response = await fetch(`${botApiUrl}/api/broadcast`, {
         method: 'POST',
         headers: {
@@ -331,9 +327,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const result = await response.json();
       console.log("Bot response:", result);
-      
+
       addActivity('success', `Broadcast message sent to ${channel_id || 'all servers'}`, req.session.user?.username);
-      
+
       res.json({
         success: true,
         message: result.message || "Broadcast sent successfully",
@@ -361,9 +357,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const moderationData = moderationSchema.parse(req.body);
       const apiSecret = process.env.API_SECRET || process.env.BOT_API_SECRET || "default-secret";
       const botApiUrl = process.env.BOT_API_URL || "https://monroe-bot.onrender.com";
-      
+
       console.log("Sending moderation action to bot:", moderationData);
-      
+
       const response = await fetch(`${botApiUrl}/api/moderation`, {
         method: 'POST',
         headers: {
@@ -382,7 +378,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const result = await response.json();
       console.log("Bot moderation response:", result);
-      
+
       res.json({
         success: true,
         message: result.message || `${moderationData.action} action executed successfully`,
@@ -411,9 +407,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const qotdData = qotdSchema.parse(req.body);
       const apiSecret = process.env.API_SECRET || process.env.BOT_API_SECRET || "default-secret";
       const botApiUrl = process.env.BOT_API_URL || "https://monroe-bot.onrender.com";
-      
+
       console.log("Sending QOTD to bot:", qotdData);
-      
+
       const response = await fetch(`${botApiUrl}/api/qotd`, {
         method: 'POST',
         headers: {
@@ -433,7 +429,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const result = await response.json();
       console.log("Bot QOTD response:", result);
-      
+
       res.json({
         success: true,
         message: result.message || "QOTD sent successfully",
@@ -460,9 +456,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const announcementData = announcementSchema.parse(req.body);
       const apiSecret = process.env.API_SECRET || process.env.BOT_API_SECRET || "default-secret";
       const botApiUrl = process.env.BOT_API_URL || "https://monroe-bot.onrender.com";
-      
+
       console.log("Sending announcement to bot:", announcementData);
-      
+
       const response = await fetch(`${botApiUrl}/api/announcement`, {
         method: 'POST',
         headers: {
@@ -483,7 +479,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const result = await response.json();
       console.log("Bot announcement response:", result);
-      
+
       res.json({
         success: true,
         message: result.message || "Announcement sent successfully",
