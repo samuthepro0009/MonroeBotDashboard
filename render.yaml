@@ -5,8 +5,8 @@ services:
     env: node
     plan: starter
     region: oregon
-    buildCommand: npm ci && npm run build
-    startCommand: npm start
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
@@ -17,3 +17,5 @@ services:
         generateValue: true
       - key: BOT_API_URL
         value: https://monroe-bot.onrender.com
+      - key: PORT
+        value: 5000
