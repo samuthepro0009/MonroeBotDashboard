@@ -78,18 +78,26 @@
 }
 
 .modern-button {
-  @apply bg-primary text-primary-foreground rounded-md px-4 py-2 font-medium transition-all duration-300 hover-scale;
+  @apply bg-primary text-primary-foreground rounded-md px-4 py-2 font-medium transition-all duration-300;
   position: relative;
   overflow: hidden;
+  transform-origin: center;
 }
 
 .modern-button:hover {
   @apply shadow-lg;
-  transform: translateY(-1px);
+  transform: translateY(-1px) scaleX(1.05) scaleY(0.98);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modern-button:not(:hover) {
+  transform: translateY(0) scaleX(1) scaleY(1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modern-button:active {
-  transform: translateY(0);
+  transform: translateY(0) scaleX(0.98) scaleY(1.02);
+  transition: all 0.1s ease-out;
 }
 
 .modern-button::before {
@@ -105,6 +113,52 @@
 
 .modern-button:hover::before {
   left: 100%;
+}
+
+/* Advanced Button Animations */
+.btn-stretch {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.btn-stretch:hover {
+  transform: scaleX(1.08) scaleY(0.96);
+}
+
+.btn-stretch:not(:hover) {
+  transform: scaleX(1) scaleY(1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-stretch:active {
+  transform: scaleX(0.95) scaleY(1.05);
+  transition: all 0.1s ease-out;
+}
+
+.btn-elastic {
+  transition: all 0.15s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.btn-elastic:hover {
+  transform: scaleX(1.1) scaleY(0.9);
+}
+
+.btn-elastic:not(:hover) {
+  transform: scaleX(1) scaleY(1);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.btn-pulse-stretch {
+  animation: pulse-stretch 2s infinite;
+}
+
+@keyframes pulse-stretch {
+  0%, 100% { 
+    transform: scaleX(1) scaleY(1);
+  }
+  50% { 
+    transform: scaleX(1.02) scaleY(0.98);
+  }
 }
 
 .modern-input {

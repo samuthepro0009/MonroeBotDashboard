@@ -6,6 +6,7 @@ import { loginSchema, type LoginRequest } from "@shared/schema";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import AnimatedButton from "@/components/ui/animated-button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Bot, Loader2, Shield, Zap } from "lucide-react";
@@ -246,33 +247,22 @@ export default function Login() {
                 </motion.div>
               </div>
 
-              <motion.div 
-                variants={itemVariants}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Button
+              <motion.div variants={itemVariants}>
+                <AnimatedButton
                   type="submit"
                   disabled={form.formState.isSubmitting}
-                  className="w-full bg-gradient-to-r from-primary to-red-600 text-primary-foreground font-semibold py-3 px-4 rounded-lg hover:shadow-lg transition-all duration-300 border-0 relative overflow-hidden"
+                  animationType="stretch"
+                  className="w-full bg-gradient-to-r from-primary to-red-600 text-primary-foreground font-semibold py-3 px-4 rounded-lg border-0"
                 >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                    initial={{ x: "-100%" }}
-                    animate={form.formState.isSubmitting ? {} : { x: "100%" }}
-                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                  />
-                  <span className="relative z-10 flex items-center justify-center">
-                    {form.formState.isSubmitting ? (
-                      <>
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                        Signing in...
-                      </>
-                    ) : (
-                      "Sign In"
-                    )}
-                  </span>
-                </Button>
+                  {form.formState.isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Signing in...
+                    </>
+                  ) : (
+                    "Sign In"
+                  )}
+                </AnimatedButton>
               </motion.div>
             </form>
           </Form>

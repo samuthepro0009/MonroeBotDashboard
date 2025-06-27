@@ -22,6 +22,15 @@ declare module "express-session" {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Health check endpoint for deployment monitoring
+  app.get("/api/health", (req, res) => {
+    res.json({ 
+      status: "healthy", 
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      version: "1.0.0"
+    });
+  });
   // Create MemoryStore instance
   const SessionStore = MemoryStore(session);
   
