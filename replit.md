@@ -1,119 +1,72 @@
-# Project Overview
+# My Application - Replit.md
 
-This is a modern full-stack web application built with React, Express, TypeScript, and PostgreSQL. The project follows a clean architecture pattern with a clear separation between client and server code, shared schemas, and a comprehensive UI component library.
+## Overview
+
+This is a Node.js web application configured for development and deployment on Replit. The project is in its initial setup phase with basic configuration files in place. The application is set up to run on port 5000 and includes PostgreSQL database support.
 
 ## System Architecture
 
 ### Frontend Architecture
-- **React 18** with TypeScript for type safety
-- **Vite** as the build tool and development server
-- **Tailwind CSS** for styling with a custom design system
-- **shadcn/ui** component library for consistent UI components
-- **Wouter** for lightweight client-side routing
-- **TanStack Query** for server state management and caching
-- **React Hook Form** with **Zod** validation for form handling
+- **Technology**: Web-based frontend (specific framework not yet determined)
+- **Build Tool**: Vite (evidenced by vite.config.ts.* in .gitignore)
+- **Static Assets**: Served from server/public directory
 
 ### Backend Architecture
-- **Express.js** server with TypeScript
-- **RESTful API** structure with `/api` prefix for all endpoints
-- **Middleware-based** request/response handling with logging
-- **Modular routing** system in `server/routes.ts`
-- **Abstract storage interface** allowing for multiple data persistence strategies
+- **Runtime**: Node.js 20
+- **Port Configuration**: Application runs on port 5000 (mapped to external port 80)
+- **Structure**: Separate server directory for backend code
 
-### Data Layer
-- **Drizzle ORM** with PostgreSQL for database operations
-- **Type-safe** schema definitions shared between client and server
-- **Zod schemas** for runtime validation derived from database schemas
-- **In-memory storage** implementation for development/testing
-- **Migration system** using Drizzle Kit
+### Database Architecture
+- **Database**: PostgreSQL 16
+- **ORM/Query Builder**: Likely Drizzle (based on common patterns, though not explicitly configured yet)
 
 ## Key Components
 
-### Shared Schema (`shared/schema.ts`)
-- Centralized database schema definitions using Drizzle ORM
-- Auto-generated TypeScript types for compile-time safety
-- Zod validation schemas derived from database schemas
-- Currently includes a basic `users` table with username/password authentication
+### Configuration Files
+- **.replit**: Defines the runtime environment, deployment settings, and workflow configuration
+- **package.json**: Not yet present but will contain Node.js dependencies and scripts
+- **.gitignore**: Configured to exclude common development artifacts and build outputs
 
-### Storage Abstraction (`server/storage.ts`)
-- **IStorage interface** defines all data operations
-- **MemStorage class** provides in-memory implementation for development
-- **Pluggable architecture** allows easy switching to database-backed storage
-- **CRUD operations** for user management (create, read by ID, read by username)
-
-### Client Architecture
-- **Component-based** React application with TypeScript
-- **Custom hooks** for mobile detection and toast notifications
-- **Utility functions** for CSS class management (cn function)
-- **Query client** configuration with automatic error handling and retry logic
-- **API request abstraction** with built-in error handling and authentication
-
-### UI System
-- **Comprehensive component library** based on Radix UI primitives
-- **Consistent design tokens** via CSS custom properties
-- **Dark/light theme support** built into the design system
-- **Responsive design** patterns with mobile-first approach
-- **Accessibility-focused** components with proper ARIA support
+### Directory Structure
+- `server/`: Backend application code
+- `server/public/`: Static assets served by the application
+- `dist/`: Build output directory (ignored in git)
+- `node_modules/`: Dependencies (ignored in git)
 
 ## Data Flow
 
-### Request Lifecycle
-1. Client makes API requests through the `apiRequest` utility function
-2. Express middleware logs requests and adds request timing
-3. Routes are processed through the modular routing system
-4. Storage operations are performed through the IStorage interface
-5. Responses are automatically logged with status codes and timing
-
-### State Management
-- **Server state** managed by TanStack Query with automatic caching
-- **Form state** handled by React Hook Form with Zod validation
-- **UI state** managed by React's built-in state management
-- **Toast notifications** for user feedback via custom hook
-
-### Development Workflow
-- **Hot module replacement** via Vite for fast development
-- **TypeScript compilation** with strict type checking
-- **Automatic server restart** on file changes
-- **Database migrations** managed by Drizzle Kit
+The application follows a typical web application pattern:
+1. Frontend requests are served from the web interface
+2. API requests are handled by the Node.js backend on port 5000
+3. Database operations are performed against PostgreSQL
+4. Static assets are served from the server/public directory
 
 ## External Dependencies
 
-### Core Runtime Dependencies
-- **Database**: PostgreSQL with Drizzle ORM
-- **Validation**: Zod for runtime type checking
-- **HTTP Client**: Built-in fetch API with custom wrapper
-- **UI Components**: Radix UI primitives for accessibility
+### Runtime Dependencies
+- **Node.js 20**: Primary runtime environment
+- **PostgreSQL 16**: Database system
+- **Vite**: Build tool for frontend assets
 
-### Development Dependencies
-- **Build Tools**: Vite for bundling and development server
-- **Type Checking**: TypeScript with strict configuration
-- **CSS Processing**: Tailwind CSS with custom configuration
-- **Database Migrations**: Drizzle Kit for schema management
-
-### Third-party Integrations
-- **Replit Environment**: Configured for seamless cloud development
-- **Auto-scaling Deployment**: Built-in deployment configuration
-- **Development Banner**: Replit development mode indicator
+### Development Tools
+- **Nix**: Package management using stable-24_05 channel
+- **Git**: Version control (with configured .gitignore)
 
 ## Deployment Strategy
 
-### Production Build
-- **Multi-stage process**: Client build followed by server preparation
-- **Static asset serving**: Express serves built client files
-- **Auto-scaling**: Configured for automatic horizontal scaling
-- **Port configuration**: Flexible port mapping (5000 internal, 80 external)
+### Replit Configuration
+- **Deployment Target**: Autoscale deployment for production
+- **Build Process**: `npm run build` command
+- **Start Process**: `npm run start` command for production
+- **Development**: `npm run dev` for local development
 
-### Development Environment
-- **Parallel execution**: Client and server run simultaneously
-- **Hot reloading**: Instant feedback during development
-- **Database provisioning**: Automatic PostgreSQL setup
-- **Environment isolation**: Separate development and production configurations
+### Port Configuration
+- **Internal Port**: 5000
+- **External Port**: 80 (for production access)
 
-### Database Strategy
-- **Migration-based**: All schema changes tracked in version control
-- **Type-safe operations**: Compile-time guarantees for database interactions
-- **Connection management**: Environment-based database URL configuration
-- **Development flexibility**: In-memory storage for rapid prototyping
+### Workflow Management
+- **Development Workflow**: Parallel execution with automatic port waiting
+- **Run Button**: Configured to start the main project workflow
 
 ## Changelog
 
@@ -127,3 +80,14 @@ Changelog:
 ```
 Preferred communication style: Simple, everyday language.
 ```
+
+## Development Notes
+
+The project is currently in its initial setup phase. Key next steps likely include:
+- Setting up package.json with appropriate dependencies
+- Implementing the core application logic
+- Configuring the database schema
+- Setting up the frontend framework and components
+- Implementing API endpoints and data models
+
+The configuration suggests this will be a full-stack web application with modern tooling and deployment capabilities.
