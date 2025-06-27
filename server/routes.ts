@@ -21,6 +21,43 @@ declare module "express-session" {
   }
 }
 
+// In-memory activity store (in production, use a database)
+const activityLog: Array<{
+  id: string;
+  type: 'success' | 'warning' | 'error' | 'info';
+  message: string;
+  timestamp: string;
+  user?: string;
+}> = [
+  {
+    id: '1',
+    type: 'success',
+    message: 'Dashboard server started successfully',
+    timestamp: new Date().toISOString(),
+  },
+  {
+    id: '2',
+    type: 'info',
+    message: 'Monroe Bot dashboard ready',
+    timestamp: new Date(Date.now() - 60000).toISOString(),
+  }
+];
+
+function addActivity(type: 'success' | 'warning' | 'error' | 'info', message: string, user?: string) {
+  activityLog.unshift({
+    id: Date.now().toString(),
+    type,
+    message,
+    timestamp: new Date().toISOString(),
+    user
+  });
+  
+  // Keep only last 50 activities
+  if (activityLog.length > 50) {
+    activityLog.splice(50);
+  }
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Health check endpoint for deployment monitoring
   app.get("/api/health", (req, res) => {
@@ -64,6 +101,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   };
 
+  // Activity endpoint
+  app.get("/api/activity", requireAuth, (req, res) => {
+    res.json(activityLog);
+  });
+
   // Auth routes
   app.post("/api/auth/login", async (req, res) => {
     try {
@@ -75,6 +117,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('Fetched user:', user);
 
       if (!user) {
+        addActivity('warning', `Failed login attempt for username: ${username}`);
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
@@ -82,6 +125,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('Password verification result:', isValidPassword);
 
       if (!isValidPassword) {
+        addActivity('warning', `Failed login attempt for user: ${username}`);
         return res.status(401).json({ message: "Invalid credentials" });
       }
 
@@ -90,6 +134,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Set session
       req.session.userId = user.id;
       req.session.user = user;
+
+      addActivity('success', `User ${username} logged in successfully`, username);
 
       console.log('Preparing response...');
       // Return user data without password
@@ -101,6 +147,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (error instanceof ZodError) {
         return res.status(400).json({ message: "Invalid input", errors: error.errors });
       }
+      addActivity('error', 'Login system error occurred');
       res.status(500).json({ message: "Internal server error" });
     }
   });
@@ -201,6 +248,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         if (healthResponse.ok) {
           const healthText = await healthResponse.text();
           if (healthText.includes("Bot is running")) {
+            addActivity('success', 'Bot status updated - Online (limited data)', req.session.user?.username);
             return res.json({
               online: true,
               serverCount: 1,
@@ -215,9 +263,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const botStatus = await response.json();
+      addActivity('success', `Bot status updated - ${botStatus.online ? 'Online' : 'Offline'}`, req.session.user?.username);
       res.json(botStatus);
     } catch (error) {
       console.error("Bot API connection error:", error instanceof Error ? error.message : String(error));
+      addActivity('error', 'Failed to connect to bot API');
       // Return offline status if bot API is not available
       res.json({
         online: false,
@@ -282,6 +332,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const result = await response.json();
       console.log("Bot response:", result);
       
+      addActivity('success', `Broadcast message sent to ${channel_id || 'all servers'}`, req.session.user?.username);
+      
       res.json({
         success: true,
         message: result.message || "Broadcast sent successfully",
@@ -298,6 +350,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid input", errors: error.errors });
       }
       console.error("Broadcast error:", error);
+      addActivity('error', `Failed to send broadcast message: ${error instanceof Error ? error.message : String(error)}`, req.session.user?.username);
       res.status(500).json({ message: "Failed to send broadcast message: " + (error instanceof Error ? error.message : String(error)) });
     }
   });

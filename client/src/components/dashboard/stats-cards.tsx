@@ -14,7 +14,10 @@ import {
   Command,
   FileText,
   MessageCircle,
-  Speaker
+  Speaker,
+  AlertCircle,
+  Info,
+  CheckCircle2
 } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import type { BotStatus } from "@shared/schema";
@@ -29,40 +32,39 @@ export default function StatsCards({ onViewChange }: StatsCardsProps) {
   const { isAdmin } = useAuth();
   const { data: botStatus, isLoading } = useQuery<BotStatus>({
     queryKey: ["/api/bot/status"],
+    refetchInterval: 30000, // Refresh every 30 seconds
   });
 
-  const statsCards = [
-    {
-      label: "Bot Status",
-      value: botStatus?.online ? "Online" : "Offline",
-      icon: CheckCircle,
-      color: botStatus?.online ? "text-green-600 bg-green-100" : "text-red-600 bg-red-100",
-    },
-    {
-      label: "Servers",
-      value: botStatus?.serverCount?.toString() || "0",
-      icon: Server,
-      color: "text-discord bg-discord/10",
-    },
-    {
-      label: "Users",
-      value: botStatus?.userCount?.toLocaleString() || "0",
-      icon: Users,
-      color: "text-blue-600 bg-blue-100",
-    },
-    {
-      label: "Uptime",
-      value: botStatus?.uptime || "0%",
-      icon: TrendingUp,
-      color: "text-emerald-600 bg-emerald-100",
-    },
-  ];
+  const { data: recentActivity = [] } = useQuery({
+    queryKey: ["/api/activity"],
+    refetchInterval: 60000, // Refresh every minute
+  });
 
-  const recentActivity = [
-    { type: "success", message: "Bot status updated", time: "2 minutes ago" },
-    { type: "info", message: "Dashboard accessed", time: "5 minutes ago" },
-    { type: "warning", message: "High memory usage detected", time: "1 hour ago" },
-  ];
+  const getActivityIcon = (type: string) => {
+    switch (type) {
+      case "success":
+        return CheckCircle2;
+      case "warning":
+        return AlertCircle;
+      case "error":
+        return AlertCircle;
+      default:
+        return Info;
+    }
+  };
+
+  const getActivityColor = (type: string) => {
+    switch (type) {
+      case "success":
+        return "text-green-600";
+      case "warning":
+        return "text-yellow-600";
+      case "error":
+        return "text-red-600";
+      default:
+        return "text-blue-600";
+    }
+  };
 
   return (
     <div>
@@ -72,17 +74,23 @@ export default function StatsCards({ onViewChange }: StatsCardsProps) {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-neon-cyan">Bot Status</p>
-              <div className="flex items-center gap-2 mt-1">
+              <div className="flex items-center gap-2 mb-1">
+                <p className="text-sm font-medium text-neon-cyan">Bot Status</p>
                 <div className={cn(
-                  "w-2 h-2 rounded-full animate-neon-pulse",
-                  botStatus?.online ? "bg-neon-green" : "bg-red-500"
+                  "w-3 h-3 rounded-full transition-all duration-300",
+                  botStatus?.online 
+                    ? "bg-green-500 shadow-lg shadow-green-500/50 animate-pulse" 
+                    : "bg-red-500 shadow-lg shadow-red-500/50"
                 )} />
-                <p className="text-2xl font-bold neon-text">{botStatus?.online ? "Online" : "Offline"}</p>
+              </div>
+              <div className="flex items-center gap-2 mt-1">
+                <p className="text-2xl font-bold neon-text">
+                  {isLoading ? "Checking..." : botStatus?.online ? "Online" : "Offline"}
+                </p>
               </div>
             </div>
             <div className={cn(
-              "p-3 rounded-full neon-border",
+              "p-3 rounded-full neon-border transition-all duration-300",
               botStatus?.online ? "bg-neon-green/10 text-neon-green" : "bg-red-500/10 text-red-500"
             )}>
               {botStatus?.online ? <Zap className="w-6 h-6" /> : <ZapOff className="w-6 h-6" />}
@@ -138,20 +146,45 @@ export default function StatsCards({ onViewChange }: StatsCardsProps) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardContent className="p-6">
-            <h3 className="text-lg font-semibold text-slate-900 mb-4">Recent Activity</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-slate-900">Recent Activity</h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => window.location.reload()}
+                className="text-slate-500 hover:text-slate-700"
+              >
+                <RefreshCw className="h-4 w-4" />
+              </Button>
+            </div>
             <div className="space-y-4">
-              {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-start space-x-3">
-                  <div className={`w-2 h-2 rounded-full mt-2 ${
-                    activity.type === 'success' ? 'bg-green-400' :
-                    activity.type === 'info' ? 'bg-blue-400' : 'bg-yellow-400'
-                  }`} />
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">{activity.message}</p>
-                    <p className="text-sm text-slate-500">{activity.time}</p>
-                  </div>
+              {recentActivity.length === 0 ? (
+                <div className="text-center py-4">
+                  <p className="text-sm text-slate-500">No recent activity</p>
                 </div>
-              ))}
+              ) : (
+                recentActivity.slice(0, 5).map((activity: any, index: number) => {
+                  const IconComponent = getActivityIcon(activity.type);
+                  return (
+                    <div key={index} className="flex items-start space-x-3">
+                      <div className={cn(
+                        "p-1 rounded-full mt-0.5",
+                        getActivityColor(activity.type)
+                      )}>
+                        <IconComponent className="w-3 h-3" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-slate-900 truncate">
+                          {activity.message}
+                        </p>
+                        <p className="text-xs text-slate-500">
+                          {activity.time || new Date(activity.timestamp).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </CardContent>
         </Card>
