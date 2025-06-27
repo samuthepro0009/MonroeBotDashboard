@@ -1,93 +1,82 @@
-# My Application - Replit.md
+# My Application - Development Guide
 
 ## Overview
 
-This is a Node.js web application configured for development and deployment on Replit. The project is in its initial setup phase with basic configuration files in place. The application is set up to run on port 5000 and includes PostgreSQL database support.
+This is an early-stage project with minimal setup. The repository currently contains only basic configuration files and a placeholder README. The project appears to be designed for a web application with both frontend and backend components, based on the gitignore patterns that exclude build artifacts and a server public directory.
 
 ## System Architecture
 
-### Frontend Architecture
-- **Technology**: Web-based frontend (specific framework not yet determined)
-- **Build Tool**: Vite (evidenced by vite.config.ts.* in .gitignore)
-- **Static Assets**: Served from server/public directory
+### Current State
+- **Stage**: Initial project setup
+- **Structure**: Minimal configuration with preparation for full-stack development
+- **Build System**: Vite-based (indicated by vite.config.ts patterns in gitignore)
+- **Deployment**: Not yet configured
 
-### Backend Architecture
-- **Runtime**: Node.js 20
-- **Port Configuration**: Application runs on port 5000 (mapped to external port 80)
-- **Structure**: Separate server directory for backend code
-
-### Database Architecture
-- **Database**: PostgreSQL 16
-- **ORM/Query Builder**: Likely Drizzle (based on common patterns, though not explicitly configured yet)
+### Anticipated Architecture
+Based on the gitignore patterns, this project is likely planning:
+- Frontend built with Vite bundler
+- Backend server with static file serving capability
+- Node.js-based development environment
+- Distribution build process
 
 ## Key Components
 
-### Configuration Files
-- **.replit**: Defines the runtime environment, deployment settings, and workflow configuration
-- **package.json**: Not yet present but will contain Node.js dependencies and scripts
-- **.gitignore**: Configured to exclude common development artifacts and build outputs
+### Frontend
+- **Status**: Not yet implemented
+- **Build Tool**: Vite (anticipated)
+- **Static Assets**: Will be served from server/public directory
 
-### Directory Structure
-- `server/`: Backend application code
-- `server/public/`: Static assets served by the application
-- `dist/`: Build output directory (ignored in git)
-- `node_modules/`: Dependencies (ignored in git)
+### Backend
+- **Status**: Not yet implemented
+- **Server Structure**: Anticipated server directory with public asset serving
+- **Runtime**: Node.js environment
+
+### Database
+- **Status**: Not configured
+- **Potential**: May integrate Drizzle ORM with database backend
 
 ## Data Flow
 
-The application follows a typical web application pattern:
-1. Frontend requests are served from the web interface
-2. API requests are handled by the Node.js backend on port 5000
-3. Database operations are performed against PostgreSQL
-4. Static assets are served from the server/public directory
+Currently no data flow is established. The architecture suggests:
+1. Client requests will be handled by the server
+2. Static assets will be served from server/public
+3. API endpoints will likely be established for data operations
 
 ## External Dependencies
 
-### Runtime Dependencies
-- **Node.js 20**: Primary runtime environment
-- **PostgreSQL 16**: Database system
-- **Vite**: Build tool for frontend assets
+### Current Dependencies
+- Node.js ecosystem (implied by node_modules in gitignore)
+- Vite build system (implied by gitignore patterns)
 
-### Development Tools
-- **Nix**: Package management using stable-24_05 channel
-- **Git**: Version control (with configured .gitignore)
+### Package Management
+- Using npm/yarn (node_modules directory excluded)
 
 ## Deployment Strategy
 
-### Replit Configuration
-- **Deployment Target**: Autoscale deployment for production
-- **Build Process**: `npm run build` command
-- **Start Process**: `npm run start` command for production
-- **Development**: `npm run dev` for local development
+### Build Process
+- Development builds will generate dist directory
+- Production assets will be placed in server/public
+- Vite will handle bundling and optimization
 
-### Port Configuration
-- **Internal Port**: 5000
-- **External Port**: 80 (for production access)
-
-### Workflow Management
-- **Development Workflow**: Parallel execution with automatic port waiting
-- **Run Button**: Configured to start the main project workflow
+### Environment
+- Development: Local server with hot reloading
+- Production: Static file serving from server directory
 
 ## Changelog
 
-```
-Changelog:
 - June 27, 2025. Initial setup
-```
 
 ## User Preferences
 
-```
 Preferred communication style: Simple, everyday language.
-```
 
 ## Development Notes
 
-The project is currently in its initial setup phase. Key next steps likely include:
-- Setting up package.json with appropriate dependencies
-- Implementing the core application logic
-- Configuring the database schema
-- Setting up the frontend framework and components
-- Implementing API endpoints and data models
+This project is in its initial stages. Key next steps will likely include:
+1. Setting up package.json with dependencies
+2. Configuring Vite for frontend development
+3. Establishing server structure and routing
+4. Adding database integration if needed
+5. Implementing core application features
 
-The configuration suggests this will be a full-stack web application with modern tooling and deployment capabilities.
+The current structure provides a clean foundation for a full-stack web application with modern tooling.

@@ -1,0 +1,637 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(222, 84%, 5%);
+  --foreground: hsl(210, 40%, 98%);
+  --muted: hsl(217, 33%, 17%);
+  --muted-foreground: hsl(215, 20%, 65%);
+  --popover: hsl(222, 84%, 5%);
+  --popover-foreground: hsl(210, 40%, 98%);
+  --card: hsl(222, 84%, 5%);
+  --card-foreground: hsl(210, 40%, 98%);
+  --border: hsl(217, 33%, 17%);
+  --input: hsl(217, 33%, 17%);
+  --primary: hsl(0, 72%, 51%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(217, 33%, 17%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --accent: hsl(217, 33%, 17%);
+  --accent-foreground: hsl(210, 40%, 98%);
+  --destructive: hsl(0, 63%, 31%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --ring: hsl(0, 72%, 51%);
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: hsl(222, 84%, 5%);
+  --foreground: hsl(210, 40%, 98%);
+  --muted: hsl(217, 33%, 17%);
+  --muted-foreground: hsl(215, 20%, 65%);
+  --popover: hsl(222, 84%, 5%);
+  --popover-foreground: hsl(0, 0%, 0%);
+  --card: hsl(222, 84%, 5%);
+  --card-foreground: hsl(0, 0%, 0%);
+  --border: hsl(217, 33%, 17%);
+  --input: hsl(217, 33%, 17%);
+  --primary: hsl(0, 72%, 51%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(217, 33%, 17%);
+  --secondary-foreground: hsl(210, 40%, 98%);
+  --accent: hsl(217, 33%, 17%);
+  --accent-foreground: hsl(210, 40%, 98%);
+  --destructive: hsl(0, 63%, 31%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --ring: hsl(0, 72%, 51%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+}
+
+/* Enhanced UI Components with Animations */
+.modern-card {
+  @apply bg-card border border-border rounded-lg shadow-sm transition-all duration-300 hover-lift;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.modern-card:hover {
+  @apply shadow-lg;
+  transform: translateY(-2px);
+}
+
+.modern-button {
+  @apply bg-primary text-primary-foreground rounded-md px-4 py-2 font-medium transition-all duration-300 hover-scale;
+  position: relative;
+  overflow: hidden;
+}
+
+.modern-button:hover {
+  @apply shadow-lg;
+  transform: translateY(-1px);
+}
+
+.modern-button:active {
+  transform: translateY(0);
+}
+
+.modern-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s;
+}
+
+.modern-button:hover::before {
+  left: 100%;
+}
+
+.modern-input {
+  @apply bg-input border border-border rounded-md px-3 py-2 text-foreground placeholder:text-muted-foreground transition-all duration-300;
+}
+
+.modern-input:focus {
+  @apply ring-2 ring-ring border-transparent;
+  transform: scale(1.02);
+}
+
+.sidebar-modern {
+  @apply bg-card border-r border-border;
+  animation: slideIn 0.5s ease-out;
+}
+
+.sidebar-item-modern {
+  @apply flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-300;
+  position: relative;
+}
+
+.sidebar-item-modern::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--primary);
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.sidebar-item-modern:hover {
+  @apply bg-accent text-accent-foreground;
+  transform: translateX(4px);
+}
+
+.sidebar-item-modern.active {
+  @apply bg-primary text-primary-foreground;
+}
+
+.sidebar-item-modern.active::before {
+  transform: scaleY(1);
+}
+
+.stat-card-modern {
+  @apply bg-card border border-border rounded-lg p-6 shadow-sm transition-all duration-300;
+  animation: slideInUp 0.5s ease-out;
+}
+
+.stat-card-modern:hover {
+  @apply shadow-xl;
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* Enhanced form components */
+.form-modern {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.form-field-modern {
+  animation: slideInUp 0.4s ease-out;
+}
+
+/* Enhanced navigation */
+.nav-modern {
+  animation: slideInDown 0.5s ease-out;
+}
+
+/* Enhanced modals and dialogs */
+.modal-modern {
+  animation: scaleIn 0.3s ease-out;
+}
+
+.dialog-modern {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Enhanced tables */
+.table-modern {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.table-row-modern {
+  transition: all 0.2s ease;
+}
+
+.table-row-modern:hover {
+  @apply bg-accent;
+  transform: scale(1.01);
+}
+
+/* Enhanced badges */
+.badge-modern {
+  @apply px-2 py-1 rounded-full text-xs font-medium transition-all duration-200;
+  animation: scaleIn 0.3s ease-out;
+}
+
+.badge-modern:hover {
+  transform: scale(1.1);
+}
+
+/* Enhanced tooltips */
+.tooltip-modern {
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Enhanced progress bars */
+.progress-modern {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-modern::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  animation: shimmer 2s infinite;
+}
+
+/* Enhanced Modern Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideInDown {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% { transform: translateY(0); }
+  40%, 43% { transform: translateY(-10px); }
+  70% { transform: translateY(-5px); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(220, 38, 38, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.6), 0 0 30px rgba(220, 38, 38, 0.4); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes wiggle {
+  0%, 7%, 14%, 21%, 28%, 35%, 42%, 49%, 56%, 63%, 70%, 77%, 84%, 91%, 98%, 100% { transform: rotate(0deg); }
+  1%, 8%, 15%, 22%, 29%, 36%, 43%, 50%, 57%, 64%, 71%, 78%, 85%, 92%, 99% { transform: rotate(1deg); }
+  2%, 9%, 16%, 23%, 30%, 37%, 44%, 51%, 58%, 65%, 72%, 79%, 86%, 93% { transform: rotate(-1deg); }
+  3%, 10%, 17%, 24%, 31%, 38%, 45%, 52%, 59%, 66%, 73%, 80%, 87%, 94% { transform: rotate(2deg); }
+  4%, 11%, 18%, 25%, 32%, 39%, 46%, 53%, 60%, 67%, 74%, 81%, 88%, 95% { transform: rotate(-2deg); }
+  5%, 12%, 19%, 26%, 33%, 40%, 47%, 54%, 61%, 68%, 75%, 82%, 89%, 96% { transform: rotate(1deg); }
+  6%, 13%, 20%, 27%, 34%, 41%, 48%, 55%, 62%, 69%, 76%, 83%, 90%, 97% { transform: rotate(-1deg); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Animation Classes */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.5s ease-out;
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.5s ease-out;
+}
+
+.animate-slide-in-down {
+  animation: slideInDown 0.5s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-wiggle {
+  animation: wiggle 1s ease-in-out;
+}
+
+.animate-gradient {
+  background: linear-gradient(-45deg, #dc2626, #7c3aed, #0ea5e9, #10b981);
+  background-size: 400% 400%;
+  animation: gradientShift 4s ease infinite;
+}
+
+/* Staggered animations */
+.animate-stagger-1 { animation-delay: 0.1s; }
+.animate-stagger-2 { animation-delay: 0.2s; }
+.animate-stagger-3 { animation-delay: 0.3s; }
+.animate-stagger-4 { animation-delay: 0.4s; }
+.animate-stagger-5 { animation-delay: 0.5s; }
+
+.shimmer-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-effect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: shimmer 2s infinite;
+}
+
+/* Hover animations */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-scale {
+  transition: transform 0.2s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Enhanced Text Color System */
+* {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+/* Text hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  color: hsl(210, 40%, 98%) !important;
+  font-weight: 600 !important;
+}
+
+p, span, div {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+/* Muted text variations */
+.text-muted-foreground,
+.text-muted {
+  color: hsl(215, 20%, 85%) !important;
+}
+
+.text-slate-500,
+.text-slate-600,
+.text-slate-700,
+.text-gray-500,
+.text-gray-600,
+.text-gray-700 {
+  color: hsl(215, 20%, 85%) !important;
+}
+
+/* Form elements */
+input, textarea, select, label {
+  color: hsl(210, 40%, 98%) !important;
+  background-color: var(--input) !important;
+  border-color: var(--border) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: hsl(215, 20%, 65%) !important;
+}
+
+/* Button text */
+button {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+button:disabled {
+  color: hsl(215, 20%, 65%) !important;
+}
+
+/* Card and component content */
+.card-content *,
+.card-header *,
+.card-footer * {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+/* Form components */
+.form-label,
+.form-message,
+.form-description,
+[data-slot="text"], 
+[data-slot="label"] {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+.form-message {
+  color: hsl(0, 72%, 51%) !important;
+}
+
+/* Table components */
+table, th, td {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+/* Fix table headers */
+thead th {
+  background-color: hsl(217, 33%, 12%) !important;
+  color: hsl(210, 40%, 98%) !important;
+}
+
+/* Fix cards with light backgrounds */
+.bg-slate-50,
+.bg-gray-50,
+.bg-white {
+  background-color: hsl(217, 33%, 17%) !important;
+}
+
+/* Fix gradient backgrounds */
+.bg-gradient-to-r {
+  background: linear-gradient(to right, hsl(217, 33%, 17%), hsl(217, 33%, 20%)) !important;
+}
+
+/* Command cards background */
+.command-card {
+  background-color: hsl(217, 33%, 17%) !important;
+  border: 1px solid hsl(217, 33%, 25%) !important;
+}
+
+/* Inspiration card styling */
+.inspiration-card {
+  background: linear-gradient(to right, hsl(217, 33%, 17%), hsl(217, 33%, 20%)) !important;
+  border: 1px solid hsl(217, 33%, 25%) !important;
+}
+
+/* Guidelines card styling */
+.guidelines-card {
+  background: linear-gradient(to right, hsl(217, 33%, 17%), hsl(217, 33%, 20%)) !important;
+  border: 1px solid hsl(217, 33%, 25%) !important;
+}
+
+/* Navigation and sidebar */
+.sidebar-item-modern,
+.nav-item,
+.menu-item {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+/* Status indicators */
+.status-online {
+  color: hsl(142, 76%, 36%) !important;
+}
+
+.status-offline {
+  color: hsl(0, 72%, 51%) !important;
+}
+
+.status-warning {
+  color: hsl(45, 93%, 47%) !important;
+}
+
+/* Links */
+a {
+  color: hsl(210, 40%, 98%) !important;
+  text-decoration: none;
+}
+
+a:hover {
+  color: hsl(0, 72%, 51%) !important;
+}
+
+/* Select and dropdown components */
+.select-content,
+.dropdown-content,
+.popover-content {
+  background-color: var(--popover) !important;
+  border-color: var(--border) !important;
+}
+
+.select-item,
+.dropdown-item {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+.select-item:hover,
+.dropdown-item:hover {
+  background-color: var(--accent) !important;
+}
+
+/* Badge components */
+.badge {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+/* Toast components */
+.toast {
+  color: hsl(210, 40%, 98%) !important;
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+/* Dialog and modal components */
+.dialog-content,
+.modal-content {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+}
+
+.dialog-title,
+.modal-title {
+  color: hsl(210, 40%, 98%) !important;
+}
+
+.dialog-description,
+.modal-description {
+  color: hsl(215, 20%, 85%) !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Loading states */
+.loading-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--muted) 25%,
+    var(--accent) 50%,
+    var(--muted) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

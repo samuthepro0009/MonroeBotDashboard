@@ -1,0 +1,35 @@
+
+[
+  {
+    "id": 1,
+    "username": "Samu",
+    "password": "$2b$12$fmjsR/uyIPEDETUJ5uXIJeKaxE4NAk1mrpYyxdxC2r5/C2UMlSnlm",
+    "role": "admin",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "lastLogin": null
+  },
+  {
+    "id": 2,
+    "username": "poseidone",
+    "password": "$2b$12$9wV8SCy7A7rXSmz6AOXCyePjKBz3c2lrzkS5./VolKwuCDnnq5LnG",
+    "role": "admin",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "lastLogin": null
+  },
+  {
+    "id": 3,
+    "username": "AlexDeCeglie",
+    "password": "$2b$12$yKKk9OpeWLR2LLsS8C.wJudSdE26CsVZmJ/0Rza4Aj73w2.kw71/.",
+    "role": "admin",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "lastLogin": null
+  },
+  {
+    "id": 4,
+    "username": "LUCA",
+    "password": "$2b$12$d2qUWmOVTvndiJweC5BdnOn.y0zWifzkcu24CyTdZs1zW1fPXXb2S",
+    "role": "admin",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "lastLogin": null
+  }
+]
