@@ -5,22 +5,15 @@ services:
     env: node
     plan: starter
     region: oregon
-    runtime: node
-    buildCommand: npm install && npm run build
+    buildCommand: npm ci && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
-      - key: NODE_VERSION
-        value: 20
       - key: SESSION_SECRET
         generateValue: true
       - key: API_SECRET
         generateValue: true
       - key: BOT_API_URL
         value: https://monroe-bot.onrender.com
-    disk:
-      name: monroe-dashboard-disk
-      mountPath: /app/data
-      sizeGB: 1
