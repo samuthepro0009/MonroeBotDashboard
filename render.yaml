@@ -1,0 +1,21 @@
+
+services:
+  - type: web
+    name: monroe-bot-dashboard
+    env: docker
+    plan: starter
+    region: oregon
+    buildCommand: docker build -t monroe-dashboard .
+    startCommand: docker run -p 5000:5000 monroe-dashboard
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: API_SECRET
+        generateValue: true
+      - key: BOT_API_URL
+        value: https://monroe-bot.onrender.com
+      - key: PORT
+        value: 5000
